@@ -20,10 +20,9 @@ AOP全程是Aspect Oriented Programming意即面向切面编程。他并不是�
 AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成的代理类拦截了现有类的“切点”。并进行控制，使得这些切面的逻辑完全与该类脱离，实现了关注点分离。
 下面附上我用Javassist实现的简单动态代理。（Javassist是一个运行时编译库，他能动态的生成或修改类的字节码，类似的有ASM和CGLIB，大多数框架就是基于后者实现的）
 
----
+---  
 ### 代理类 DProxy
    package reflect.aop;
-
    import javassist.CannotCompileException;
    import javassist.ClassPool;
    import javassist.CtClass;
@@ -33,23 +32,14 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
    import javassist.NotFoundException;
 
    public class DProxy {
-    /**
-     * 动态生成的代理类名前缀 prefix name for Proxy
-     */
+    
+    //动态生成的代理类名前缀 prefix name for Proxy
     private static final String PROXY_CLASS_NAME = ".Gproxy$";
-    /**
-     * 代理类名索引 用于标示一个唯一的代理类（具体的代理类名为Gproxy$n） index for generate a unique proxy
-     * class
-     */
+    //代理类名索引 用于标示一个唯一的代理类（具体的代理类名为Gproxy$n） index for generate a unique proxy class
     private static int proxyIndex = 1;
-    /**
-     * 代理拦截器(利用继承减少动态构造的字节码) Proxy interceptor(desingn for inherit)
-     */
+    //代理拦截器(利用继承减少动态构造的字节码) Proxy interceptor(desingn for inherit)
     protected Interceptor interceptor;
-
-    /**
-     * Prohibit instantiation 利用私有构造函数阻止该类实例化
-     */
+    // Prohibit instantiation 利用私有构造函数阻止该类实例化
     private DProxy() {
     };
 
@@ -57,15 +47,15 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
      this.interceptor = interceptor;
     }
 
-    /**
-     * 创建动态代理的工厂方法 static factory method for create proxy
-     * 
-     * @param targetClass
-     *            :被代理的类型
-     * @param interceptor
-     *            拦截器实例
-     * @return 返回动态代理实例 它实现了targerClass的所有接口。 因此可以向上转型为这些之中的任意接口
-     */
+      /**
+       * 创建动态代理的工厂方法 static factory method for create proxy
+       * 
+       * @param targetClass
+       *            :被代理的类型
+       * @param interceptor
+       *            拦截器实例
+       * @return 返回动态代理实例 它实现了targerClass的所有接口。 因此可以向上转型为这些之中的任意接口
+       */
     public static Object createProxy(Class<?> targetClass, Interceptor interceptor) {
      int index = 0;
      /* 获得运行时类的上下文 */
@@ -135,7 +125,7 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
     }
    }
   
-  ---
+  ---  
   ###接口 Interface
    package reflect.aop;
     public interface Interface {
@@ -143,7 +133,7 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
     }
    }
  
- ---
+ ---  
   ###接口实现
   package reflect.aop;
    public class clazz implements Interface{
@@ -153,7 +143,7 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
     }  
    }
 
----
+---  
  ###拦截接口
  package reflect.aop;
 
@@ -163,7 +153,7 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
   int intercept(Object instance, Method method, Object[] Args);
  }
  
- ---
+ ---  
   ###拦截实现
   package reflect.aop;
 
@@ -197,7 +187,7 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
   }
   
   
- ---
+ ---  
  ###测试类
   package reflect.aop;
   public class Test {
@@ -214,4 +204,20 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
  >before action
   do Action1234
   after action
+ 
  ----
+ 
+ 插入source 特殊字符
+ 方法的特殊变量说明：
+$0, $1, $2, ...	this and actual parameters
+$args	An array of parameters. The type of $args is Object[].
+$$	All actual parameters.For example, m($$) is equivalent to m($1,$2,...)
+$cflow(...)	cflow variable
+$r	The result type. It is used in a cast expression.
+$w	The wrapper type. It is used in a cast expression.
+$_	The resulting value
+$sig	An array of java.lang.Class objects representing the formal parameter types
+$type	A java.lang.Class object representing the formal result type.
+$class	A java.lang.Class object representing the class currently edited.
+
+ 
