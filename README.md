@@ -188,7 +188,8 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
   
   
  ---  
- ###测试类
+ 
+  ###测试类
   package reflect.aop;
   public class Test {
 
@@ -207,17 +208,15 @@ AOP如Spring的AOP实现就是以这种方式实现的。他使用动态生成�
  
  ----
  
- 插入source 特殊字符
+ ###插入source 特殊字符
+ > http://zhxing.iteye.com/blog/1703305
  方法的特殊变量说明：
-$0, $1, $2, ...	this and actual parameters
-$args	An array of parameters. The type of $args is Object[].
-$$	All actual parameters.For example, m($$) is equivalent to m($1,$2,...)
-$cflow(...)	cflow variable
-$r	The result type. It is used in a cast expression.
-$w	The wrapper type. It is used in a cast expression.
-$_	The resulting value
-$sig	An array of java.lang.Class objects representing the formal parameter types
-$type	A java.lang.Class object representing the formal result type.
-$class	A java.lang.Class object representing the class currently edited.
+1. $0, $1, $2, ...	this and actual parameters
+2. $args	An array of parameters. The type of $args is Object[].
+3. $$	All actual parameters.For example, m($$) is equivalent to m($1,$2,...)
+4. $cflow(...)	cflow variable
+5. $r	The result type. It is used in a cast expression.
+6. $w	The wrapper type. It is used in a cast expression.
+
 
  
